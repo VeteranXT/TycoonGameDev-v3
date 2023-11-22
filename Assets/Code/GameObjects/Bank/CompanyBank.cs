@@ -30,7 +30,7 @@ public class CompanyBank : MonoBehaviour
 
     private void Start()
     {
-        PlayerCompany.EventPayWages += PayWages;
+        Company.EventPayWages += PayWages;
     }
     public void PayIntrest()
     {
@@ -44,9 +44,9 @@ public class CompanyBank : MonoBehaviour
     {
         Currency = amount;
     }
-    public void PayWages(float )
+    public void PayWages(float wages)
     {
-        
+        Currency -= wages;
     }
     public void SetIntrestRate(float rate)
     {
