@@ -18,7 +18,7 @@ public class Company : MonoBehaviour
         float wages = 0;
         for (int i = 0; i < employees.Count; i++)
         {
-            wages += employees[i].salaryWage;
+            wages += employees[i].GetWage;
         }
         if(wages > 0)
         {

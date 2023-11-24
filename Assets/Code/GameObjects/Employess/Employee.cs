@@ -32,7 +32,7 @@ public class Employee : MonoBehaviour, IEmployee
 
     #region Getter Setter
     public bool IsCEO { get { return isCEO; } }
-    public float GetWage { get { return salaryWage; } set { salaryWage = value; } }
+    public float GetWage { get { return salaryWage; } }
     public string FirstName { get { return firstName; } }
     public List<CharacterStat> GetSkills { get; }
     public EmployeeSate EmpState { get { return employeeState; } }
