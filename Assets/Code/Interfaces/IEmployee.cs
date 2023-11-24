@@ -1,15 +1,23 @@
 ﻿using System.Threading.Tasks;
 
+public enum EmployeeSate
+{
+    Idle,
+    Working,
+    Break,
+    GoingToFullfillNeed,
+    FullfilingNeeed,
+    GoingBackToDesk,
+    NotAssignedToRoom
+
+}
 public interface IEmployee
 {
     public string FirstName { get; }
     public float GetWage { get; }
-    void PayWage();
-    void Learn(CharacterStat skill, float amount);
+    void DoTask();
 
-    void Develop(TaskDevelop develop);
-
-    void MarketProdurct(TaskAddHype addHype);
+    void DoNeed();
 
     // TO DO Add more like human things.
     //GO to batroom

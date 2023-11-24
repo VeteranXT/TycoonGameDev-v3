@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 
@@ -16,42 +18,23 @@ public class GameEngine : TimeLockables
     [SerializeField] private bool inHouse = false;
     [SerializeField] private bool isOwned = false;
     [SerializeField] private int devKitCost = 1000;
+    [SerializeField] private float efficency = 0f;
+    [SerializeField] private float maxEfficency = 0.6f;
 
-    //TO DO: Add developemt time reduction for these features that are developed in engine
-    //Engine us used to cutdown development of basic functions and features by 60%
-    //Efficency needs to be redjusted by employess skill adverge skill level who worked on it.
-    //[SerializeField] private float Efficency = 1f;
-    //[SerializeField] private float MaxEfficency = 60f;
-    public float GetEngineEfficency(Employee[] skills)
+    public float  GetEfficency { get { return efficency; } private set { efficency = value; } }
+
+    public void SetEfficency(List<Employee> employees)
     {
-        float AISkill = 0f;
-        float GraphicsSkill = 0f;
-        float SoundSkill= 0f;
-        float RennderSkill= 0f;
-        float phuycisSkil = 0f;
-
-        foreach (var item in skills)
-        {
-            
-
-        }
-    }
+    } 
 
     public float RoyalityFeee { get { return royalityShare; } set { royalityShare = value; } }
     public float DevLicenceFee { get { return devLicenceFee; } set { devLicenceFee = value; } }
     public bool InHouse { get { return inHouse; } set { inHouse = value; } }
     public bool IsOwned { get { return isOwned; } set { isOwned = value; } }
 
-    public LockResearchables SelectAIFeature(int index, LockResearchables[] features)
-    {
-        if (index > features.Length || index < 0)
-        {
-            Debug.LogError("Selected Feature index is : " + index + " is out of array");
-            //TO DO: Handle Error Execption
-            return null;
-        }
-        return features[index];
-    }
+   
+
+    
 
 }
 

@@ -3,13 +3,15 @@
 [System.Serializable]
 public class CharacterStat
 {
-    private float skill = UnityEngine.Random.Range(9,17);
+    private float skill = Random.Range(9,17);
     private float maxSkill = 100;
 
     public float GetSkill { get { return skill; } set { skill = value; } }
     public float GetMaxSkill { get { return maxSkill; } }   
 
     public float GetRatio { get { return skill/ maxSkill; } }
+    public CharacterStat() { }
+
     public CharacterStat (float skill, float maxSkill = 100)
     {
         this.skill = skill;
