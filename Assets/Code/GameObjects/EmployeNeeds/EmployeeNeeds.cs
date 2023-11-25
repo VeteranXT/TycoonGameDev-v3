@@ -7,9 +7,9 @@ public class EmployeeNeeds  : ScriptableObject
     [SerializeField] private string needName;
     [SerializeField] private float currentNeed = 100;
     [SerializeField] private float maxNeed = 100;
-    [SerializeField] private NeedFurniture[] objectToFullFillNeed;
     [SerializeField] private float needReducer = 0.1f;
-    [SerializeField] private bool isCriticalNeed;
+    [SerializeField] private bool isCriticalNeed = false;
+    [SerializeField] private NeedFurniture[] objectToFullFillNeed;
 
     public bool IsCritical { get { return isCriticalNeed; } }
     public float Reducer { get { return needReducer; } }

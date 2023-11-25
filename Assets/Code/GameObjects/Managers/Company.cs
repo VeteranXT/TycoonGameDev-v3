@@ -22,14 +22,14 @@ public class Company : MonoBehaviour
         }
         if(wages > 0)
         {
-            EventPayWages?.Invoke(wages);
+            ;
         }
         return wages;
     }
 
     public virtual  void PayWages()
     {
-        GetTotalWages();
+        EventPayWages?.Invoke(GetTotalWages());
     }
     public virtual void HireEmplyeee(Employee newEmployee)
     {
