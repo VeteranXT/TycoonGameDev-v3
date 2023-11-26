@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static BuildingGrid;
 
 public class BuildingGrid : MonoBehaviour
 {
@@ -38,9 +36,6 @@ public class BuildingGrid : MonoBehaviour
         this.buildingGrids = new BuildingGrid[width * cellsize, height * cellsize];
         hasWallFacing = new bool[width * cellsize, height * cellsize];
     }
-
-
-
     public void GenerateGrid()
     {
         for (int x = 0; x < width; x++)
