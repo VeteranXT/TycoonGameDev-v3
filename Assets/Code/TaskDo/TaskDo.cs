@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TaskDo : MonoBehaviour
+public class TaskDo : MonoBehaviour 
 {
     public virtual void SetTask(TaskDo task)
     {

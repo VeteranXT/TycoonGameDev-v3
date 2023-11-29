@@ -1,3 +1,7 @@
-﻿public class GameDeveloped
+﻿using System;
+
+[Serializable]
+public class GameDeveloped
 {
+
 }

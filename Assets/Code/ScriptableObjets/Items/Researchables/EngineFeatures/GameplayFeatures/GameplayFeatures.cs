@@ -1,11 +1,65 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Gameplay Feature", menuName = "Features/Gameplay Features/New Gameplay")]
-public class GameplayFeatures : LockResearchables
+
+public class GameplayFeatures : EngineFeature
 {
-    private float devPoints;
     private string featureName;
 
-    public string FeatureName {  get { return featureName; } }
-    public float DevPoints { get { return devPoints; } }
+    public string FeatureName { get { return featureName; } }
+
+
 }
+
+
+//NOTE TO SELF!!
+
+
+///Independant game play features 
+//Classes/Counts
+//Add Dungeons Count/Sizes
+//Weather Effects
+//Cheat Codes Count
+//Level Editor
+//Saving Passwords/Data?
+//Pause Game
+//Dynamic Economy
+//Pet/Companion System
+//Seasonal Events  (4 max)?? 
+//Dynamic Soundtrack couns
+//Quests Counts
+//Side Quests/ counts
+//Weapons types/counts per type
+//Tutorial type/size
+//Protagonits count
+//Antagonist counts
+//Endings count
+//Cutscenes count
+//NPC Factions
+//Player Housing
+//Barter Economy
+//Player Trading
+//loot items counts
+//Mounts Count
+//Strategy Resources count
+//Day/Night Cycle Effects
+//Clan/Guild Systems
+//Teritory Clan Wars
+//Leaderborads
+//Achievement System count
+//Desctuctable Combat environment 
+//Character Customization Count
+//Bosses count
+
+
+///Dependent
+//Skill Trees/count (depended and multipiled on amount of classes)
+//Weapon Skins (Depended on amount of types and how many weapons of that type)
+//Endings Cutscenes count (Depends on endings count * Protagonits * Antagonist;
+//BackStories count  = (Depends on * Protagonits * Antagonist)
+//Character Relationships (Depends on Protagonists and Antagonists; affects dialogue and story)
+//Bosses Abilites per boss
+//Dynamic Story Branching (Dependent on Player Choices and Quest Outcomes)
+//Dynamic Enemy Scaling (Dependent on Player Level and Progression)
+//Seasonal Challenges (Dependent on Seasonal Events and Quests)
+//Interactive NPCs (Dependent on NPC Factions and Player Actions)
