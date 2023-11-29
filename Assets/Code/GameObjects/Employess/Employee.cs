@@ -73,11 +73,6 @@ public class Employee : MonoBehaviour, IEmployee
                         needsTimer = 0f;
                     }
                 }
-                //TO DO
-                //Check if this need is critical
-                //if it is well go and do it
-                //else wait for break
-                //We need to fullfill current need
                 if (need.IsNeededToRefill)
                 {
                     //Find Neariest object to fill need
@@ -95,7 +90,7 @@ public class Employee : MonoBehaviour, IEmployee
                 }
                 else
                 {
-                    //TO DO: Reduce Motivation and mabye quit?
+                    //TO DO: Reduce Motivation
                 }
             }
             switch (employeeState)
@@ -116,11 +111,12 @@ public class Employee : MonoBehaviour, IEmployee
                 case EmployeeSate.GoingToFullfillNeed:
                     if (path.reachedDestination)
                     {
+                       
                         //TO DO:
                         //Play Animation or wait there like dummy
                         //fullfill need
                         //Switch state after we fullfiled our need
-                        employeeState = EmployeeSate.GoingBackToDesk;
+                        employeeState = EmployeeSate.FullfilingNeeed;
                     }
                     break;
                 case EmployeeSate.GoingBackToDesk:
@@ -134,6 +130,16 @@ public class Employee : MonoBehaviour, IEmployee
                     //Check if we reached our WorkSttatin
                     if (path.reachedDestination)
                     {
+                        if (needObj != null)
+                        {
+                            foreach (var item in needsList)
+                            {
+                                if (item.NeedName == needObj.GetFullfillingNeed.NeedName)
+                                {
+                                    needObj.StartFullfiling(item);
+                                }
+                            }
+                        }
                         employeeState = EmployeeSate.Working;
                     }
                     break;
@@ -192,13 +198,21 @@ public class Employee : MonoBehaviour, IEmployee
         AddNewSkill(new CharacterStat(employeeData.PhysicsSkill));
         this.firstName = name;
     }
-    public virtual void DoNeed()
+    public virtual void DoNeed(EmployeeNeeds neeed)
     {
-
+        foreach(var item in needsList)
+        {
+            if(item.NeedName == neeed.NeedName)
+            {
+                item.FullfillNeed();
+            }
+        }
     }
     public virtual void DoTask()
     {
-        timer -= Time.deltaTime;
+        if (assignedRoom != null && assignedRoom.CurrentTask != null)
+            timer -= Time.deltaTime;
+
         if (timer >= workTimer)
         {
             if(assignedRoom != null && assignedRoom.CurrentTask != null)
@@ -233,14 +247,8 @@ public class Employee : MonoBehaviour, IEmployee
 
                 if (fullfilingFurnturie != null && !fullfilingFurnturie.IsTaken() && fullfilingFurnturie.GetFullfillingNeed.NeedName == needs.NeedName)
                 {
-                    return fullfilingFurnturie;
-                 
-                    
-
+                    return fullfilingFurnturie; 
                 }
-
-
-
             }
         }
         return null;

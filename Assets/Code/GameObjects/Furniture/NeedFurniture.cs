@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public  class NeedFurniture : MonoBehaviour
+public  class NeedFurniture : Furniture
 {
     private Employee takenBy = null;
     private EmployeeNeeds fulfillingNeed;
@@ -12,9 +12,10 @@ public  class NeedFurniture : MonoBehaviour
         takenBy = null;
 
     }
-    public void StartFullfiling()
+    public void StartFullfiling(EmployeeNeeds need)
     {
-        takenBy.DoNeed();
+        takenBy.DoNeed(need);
+
     }
 
 

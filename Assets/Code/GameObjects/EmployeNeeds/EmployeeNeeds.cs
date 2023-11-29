@@ -29,7 +29,7 @@ public class EmployeeNeeds  : ScriptableObject
 
     public float MaxNeed { get { return maxNeed; } set {  maxNeed = value; } }
     public NeedFurniture[] ObjectToFullFillNeed { get { return objectToFullFillNeed; }  }
-    public void FullFillNeed()
+    public void FullfillNeed()
     {
         CurrentNeed = MaxNeed;
     }

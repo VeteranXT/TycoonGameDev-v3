@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WorkFurniture : MonoBehaviour
+public class WorkFurniture : Furniture
 {
     private Employee isTaken= null;
     private Transform workSpot;

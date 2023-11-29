@@ -17,7 +17,7 @@ public interface IEmployee
     public float GetWage { get; }
     void DoTask();
 
-    void DoNeed();
+    void DoNeed(EmployeeNeeds need);
 
     // TO DO Add more like human things.
     //GO to batroom

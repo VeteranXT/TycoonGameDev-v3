@@ -23,15 +23,5 @@ public class Room : MonoBehaviour
 
     }
 
-    public virtual void Update()
-    {
-        foreach (var worker in assingedEmployees)
-        {
-            if(currentTask != null && worker.EmpState == EmployeeSate.Working)
-            {
-                //item.DoTask(DoTask(currentTask));
-            }
-        }
-
-    }
+  
 }
