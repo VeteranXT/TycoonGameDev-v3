@@ -48,8 +48,6 @@ public class TaskDevelopGame : TaskDo
     private int bugsCount;
     public List<GameplayFeatures> SelectedFeatures { get { return notDevelopedFeaturesList; } private set { notDevelopedFeaturesList = value; } }
  
-
-
     #region Setting To develop
     public void ChangeGameTitle(string title)
     {

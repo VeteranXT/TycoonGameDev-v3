@@ -50,7 +50,8 @@ public class GameplayFeatures : EngineFeature
 //Desctuctable Combat environment 
 //Character Customization Count
 //Bosses count
-
+//Furniture count
+//Vehicles  connt (Sport racing transports?)
 
 ///Dependent
 //Skill Trees/count (depended and multipiled on amount of classes)
