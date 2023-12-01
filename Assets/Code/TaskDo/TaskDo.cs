@@ -12,7 +12,7 @@ public class TaskDo : MonoBehaviour
         return 0f;
     }
 
-    public virtual void AddDevPoints(float devPoints)
+    public virtual void DoTask(float devPoints)
     {
 
     }

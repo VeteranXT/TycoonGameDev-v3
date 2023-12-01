@@ -217,7 +217,7 @@ public class Employee : MonoBehaviour, IEmployee
         {
             if(assignedRoom != null && assignedRoom.CurrentTask != null)
             {
-                assignedRoom.DoWork();
+               // assignedRoom.DoTask();
             }
             else
             {
@@ -242,10 +242,10 @@ public class Employee : MonoBehaviour, IEmployee
         {
             NeedFurniture fullfilingFurnturie = collider.GetComponent<NeedFurniture>();
 
-            foreach (var needs in needsList)
+            foreach (var needs in gameObject)
             {
 
-                if (fullfilingFurnturie != null && !fullfilingFurnturie.IsTaken() && fullfilingFurnturie.GetFullfillingNeed.NeedName == needs.NeedName)
+                if (fullfilingFurnturie != null && !fullfilingFurnturie.IsTaken() && fullfilingFurnturie.GetFullfillingNeed.NeedName == needs.name)
                 {
                     return fullfilingFurnturie; 
                 }

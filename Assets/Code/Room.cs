@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
     {
       
     }
-    public virtual void DoTask()
+    public virtual void DoTask(float[] points)
     {
 
     }

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum TargetAudence
+{
+    All,
+    Elder,
+    Adult,
+    Teen,
+    Childern
+}
 public class TaskDevelopGame : TaskDo
 {
     //Placeholders for when game is finished so we know what we been making
@@ -12,7 +20,7 @@ public class TaskDevelopGame : TaskDo
     private Genres secondaryGenre;
     private ThemeTopic primaryTopic;
     private ThemeTopic secondaryTopic;
-    private TargetAudence targetAudence;
+    private TargetAudence targetAudence = TargetAudence.All;
     //Stuff we actually use  to calcualte dev time
     private GameEngine engine;
     private ProjectSize projectSize;
@@ -32,7 +40,7 @@ public class TaskDevelopGame : TaskDo
     public event Action<GameDeveloped> EventGameDeveloping;
     #endregion 
 
-
+    public TargetAudence AudenceTarget { get { return targetAudence; } set { targetAudence = value; } }
     public string GameTitle { get { return gameName; } set { gameName = value; } }
     public string GameDescription { get { return gameDescription; } set { gameDescription = value; } }
     public Genres PrimaryGenre { get { return primaryGenre; } private set { primaryGenre = value; } }
@@ -137,13 +145,16 @@ public class TaskDevelopGame : TaskDo
     }
 
 
-
+    
 
     //Create instance of Task and assign it to Game room
     public TaskDevelopGame CreateNewGame(GameEngine enginem,string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
     {
+
         TaskDevelopGame NewTask = Instantiate(this, parent);
+        
         NewTask.engine = enginem;
+        //TO DO: Check for exisitng IP with same name
         NewTask.GameTitle = title;   
         NewTask.GameDescription = description;
         NewTask.PrimaryGenre = primGrene;
@@ -154,8 +165,59 @@ public class TaskDevelopGame : TaskDo
         CalculateTotalDevWork(engine);
         return NewTask;
     }
-  
-    public override void AddDevPoints(float devPoints)
+
+
+    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene,  ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
+    {
+
+        TaskDevelopGame NewTask = Instantiate(this, parent);
+
+        NewTask.engine = enginem;
+        //TO DO: Check for exisitng IP with same name
+        NewTask.GameTitle = title;
+        NewTask.GameDescription = description;
+        NewTask.PrimaryGenre = primGrene;
+        NewTask.PrimaryTopic = primTop;
+        NewTask.SecondaryTopic = secTop;
+        NewTask.ProjectSize = size;
+        CalculateTotalDevWork(engine);
+        return NewTask;
+    }
+
+    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop,  ProjectSize size, Transform parent)
+    {
+
+        TaskDevelopGame NewTask = Instantiate(this, parent);
+
+        NewTask.engine = enginem;
+        //TO DO: Check for exisitng IP with same name
+        NewTask.GameTitle = title;
+        NewTask.GameDescription = description;
+        NewTask.PrimaryGenre = primGrene;
+        NewTask.PrimaryTopic = primTop;
+        NewTask.SecondaryGenre = secGenre;
+        NewTask.ProjectSize = size;
+        CalculateTotalDevWork(engine);
+        return NewTask;
+    }
+
+
+    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene, ThemeTopic primTop, ProjectSize size, Transform parent)
+    {
+
+        TaskDevelopGame NewTask = Instantiate(this, parent);
+
+        NewTask.engine = enginem;
+        //TO DO: Check for exisitng IP with same name
+        NewTask.GameTitle = title;
+        NewTask.GameDescription = description;
+        NewTask.PrimaryGenre = primGrene;
+        NewTask.PrimaryTopic = primTop;
+        NewTask.ProjectSize = size;
+        CalculateTotalDevWork(engine);
+        return NewTask;
+    }
+    public override void DoTask(float devPoints)
     {
         if (IsDeveloping)
         {
