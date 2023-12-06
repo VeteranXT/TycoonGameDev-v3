@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Employee : MonoBehaviour, IEmployee
@@ -14,180 +13,156 @@ public class Employee : MonoBehaviour, IEmployee
     [SerializeField] private string firstName = "Joe";
     [SerializeField] private float salaryWage = 1_000;
     [SerializeField] private bool isCEO = false;
-    private NeedFurniture needObj = null;
-    private WorkFurniture workFurniture = null;
-    private Room assignedRoom = null;
-    private float workTimer = 1f;
-    private float timer = 0;
-    //TO DO: BREAKS!! like golfing, drinking coffe, watching tv, playing games
-    private float breakTimer = 0;
-    private float breakLength = 100;
-
-    //TO DO: Subscribe to EmloyeeeSettings and set curreth length  to current settings
-    private void SetBreakLenght(float lenght)
-    {
-        breakLength = lenght;
-    }
-    private EmployeeSate employeeState = EmployeeSate.Idle;
-
-    #region Getter Setter
-    public bool IsCEO { get { return isCEO; } }
-    public float GetWage { get { return salaryWage; } }
+    [SerializeField] private EmployeeSate employeeState = EmployeeSate.Idle;
+    [SerializeField] private NeedFurniture needObj = null;
+    [SerializeField] private WorkFurniture workTable = null;
+    [SerializeField] private Room assignedRoom = null;
+    [SerializeField] private float workTimer = 1f;
+    [SerializeField] private float work = 0;
+    public event Action<Employee> EventDoneTask;
+    public event Action<Employee> EventFiredEmployee;
+    #region Getters Setters
     public string FirstName { get { return firstName; } }
+    public float GetWage { get { return salaryWage; } }
+    public bool IsCEO { get { return isCEO; } }
     public List<CharacterStat> GetSkills { get; }
-    public EmployeeSate EmpState { get { return employeeState; } }
+    public EmployeeSate EmployeeState { get { return employeeState; } }
 
-    #endregion 
-    float needsTimer = 0f;
-    public virtual void Update()
-    {
-        //We have nowere to form 
-        if (workFurniture == null)
-        {
-            //We are assigned to room
-            if (assignedRoom != null)
-            {
-                float searchRadius = 300f;
-                Collider[] colliders = Physics.OverlapSphere(transform.position, searchRadius);
-                foreach (var collider in colliders)
-                {
-                    WorkFurniture freeTable = collider.GetComponent<WorkFurniture>();
-                    //Check if that table is exits and that is not taken by other people in this room
-                    if (freeTable != null && !freeTable.IsTaken)
-                    {
-                        //Found Free work station
-                        freeTable.AssignFurniture(this);
-                    }
-                }
-            }
-
-            foreach (var need in needsList)
-            {
-                //Check if employee have needs
-                if (GameplaySettings.HasNeeds)
-                {
-                    needsTimer += Time.deltaTime;
-                    if (needsTimer >= 1f)
-                    {
-                        need.CurrentNeed -= need.Reducer;
-                        needsTimer = 0f;
-                    }
-                }
-                if (need.IsNeededToRefill)
-                {
-                    //Find Neariest object to fill need
-                    needObj = FindNeariestNeedObject(need.ObjectToFullFillNeed);
-                    employeeState = EmployeeSate.GoingToFullfillNeed;
-                    destination.target = needObj.transform;
-                }
-                else if (need.IsCriticalyLow)
-                {
-                    //TO DO
-                    //display need  icon in normal.
-                    //Find Corespoding object
-                    //Fill Need
-                    //go back  to work
-                }
-                else
-                {
-                    //TO DO: Reduce Motivation
-                }
-            }
-            switch (employeeState)
-            {
-                case EmployeeSate.Idle:
-                    if (assignedRoom.CurrentTask != null)
-                        employeeState = EmployeeSate.Working;
-                    else
-                        employeeState = EmployeeSate.Idle;
-                    break;
-                case EmployeeSate.Working:
-                    //Do work in room
-                    if (assignedRoom != null)
-                    {
-                        DoTask();
-                    }
-                    break;
-                case EmployeeSate.GoingToFullfillNeed:
-                    if (path.reachedDestination)
-                    {
-                       
-                        //TO DO:
-                        //Play Animation or wait there like dummy
-                        //fullfill need
-                        //Switch state after we fullfiled our need
-                        employeeState = EmployeeSate.FullfilingNeeed;
-                    }
-                    break;
-                case EmployeeSate.GoingBackToDesk:
-                    //We are not in our at our work.
-                    if(Vector3.Distance(transform.position,workFurniture.GetWorkPosition.position) < 1f)
-                    {
-                        destination.target = workFurniture.GetWorkPosition;
-                    }
-                    break;
-                case EmployeeSate.FullfilingNeeed:
-                    //Check if we reached our WorkSttatin
-                    if (path.reachedDestination)
-                    {
-                        if (needObj != null)
-                        {
-                            foreach (var item in needsList)
-                            {
-                                if (item.NeedName == needObj.GetFullfillingNeed.NeedName)
-                                {
-                                    needObj.StartFullfiling(item);
-                                }
-                            }
-                        }
-                        employeeState = EmployeeSate.Working;
-                    }
-                    break;
-                case EmployeeSate.NotAssignedToRoom:
-                    //TO DO
-                    //Roam Around like crazy person with a question mark above head 
-                    //Enter random rooms for sake of confusion
-                    //Touch random stuff
-                    //Inspect random stuff
-                    //Sabotage random people...?
-                    //Quit out of boredom?
-                    break;
-            }
-        }
-    }
+    #endregion
 
     public virtual void Start()
     {
         destination = GetComponent<AIDestinationSetter>();
         path = GetComponent<AIPath>();
         path.maxSpeed = 3f;
+        path.gravity = Vector3.zero;
+
         needsList = Resources.LoadAll<EmployeeNeeds>("").ToList();
     }
-    public void AddNewSkill(CharacterStat characterStat)
+    public virtual void Update()
     {
-        if (characterStats != null)
+        if (GameplaySettings.HasNeeds)
         {
-            characterStats.Add(characterStat);
+            //Check your needs.
+            foreach (var need in needsList)
+            {
+                //needsTimer += Time.deltaTime;
+                //if (needsTimer >= 1f)
+                //{
+                //    need.ReuceNeed();
+                //    needsTimer = 0f;
+                //}
+
+                //Is this critical need to fullfill
+                //Bathroom, Eat etc?
+                //if (need.IsCritical && need.IsNeededToRefill)
+                //{
+                //    TO DO: wait for break
+                //    Find object
+                //    Fullfill need
+                //}
+                //else if (need.IsCriticalyLow)
+                //{
+
+                //}
+            }
+        }
+
+        UpdateEmployeeState();
+    }
+    private void FindWorkSation()
+    {
+        if(assignedRoom.HasFreeWorkStation())
+        {
+            workTable = assignedRoom.GetFirstFreeWorkstation();
+            workTable.Assign(this);
+        }     
+    }
+
+    public void FireEmployee()
+    {
+        if (CanFire())
+        {
+            EventFiredEmployee?.Invoke(this);
+            workTable.UnAssign();
+            Destroy(gameObject);
+        }
+    }
+    public bool CanFire()
+    {
+        if (IsCEO)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void UpdateEmployeeState()
+    {
+        switch (employeeState)
+        {
+            case EmployeeSate.LookingForWorkTable:
+                FindWorkSation();
+                break;
+            case EmployeeSate.GoingToWorkTable:
+                if (!WeAtWorkStation())
+                {
+                    if(workTable != null)
+                    {
+                        destination.target = workTable.transform;
+                        if (WeAtWorkStation())
+                            employeeState = EmployeeSate.Working;
+                    }
+                    else
+                    {
+                        employeeState = EmployeeSate.LookingForWorkTable;
+                    }
+
+                }
+                break;
+            case EmployeeSate.Idle:
+                if(assignedRoom.CurrentTask != null)
+                    employeeState = EmployeeSate.Working;
+                break;
+            case EmployeeSate.Working:
+                if(assignedRoom.CurrentTask != null)
+                    DoTask();
+                else
+                    employeeState = EmployeeSate.Idle;
+                break;
+                //TO DO rest of needs
+            case EmployeeSate.GoingToBreak:
+                break;
+            case EmployeeSate.OnBreak:
+                break;
+            case EmployeeSate.GointToFillNeed:
+                break;
+            case EmployeeSate.FillingNeed:
+                break;
         }
     }
 
-    public void AddNewNeed(EmployeeNeeds need)
+    public virtual void DoTask()
     {
-        needsList.Add(need);
+        if (assignedRoom != null && assignedRoom.CurrentTask != null)
+            work += Time.deltaTime;
+        if (work >= workTimer)
+        {
+            workTimer = 0;
+            EventDoneTask?.Invoke(this);
+        }
+    }
+
+    private bool WeAtWorkStation()
+    {
+        return Vector3.Distance(transform.position, workTable.transform.position) < 1f;
     }
     public static void CreateInstance(EmployeeData employeeData, Vector3 positoon,Room room)
     {
         Employee em = Instantiate(employeeData.EmployeePrefabs, positoon, Quaternion.identity);
         em.Setup(employeeData);
         if(room != null)
-        {
             em.assignedRoom = room;
-        }
-        else
-        {
-            //Wonder around
-            em.employeeState = EmployeeSate.NotAssignedToRoom;
-        }
     }
     public virtual void Setup(EmployeeData employeeData)
     {
@@ -204,53 +179,25 @@ public class Employee : MonoBehaviour, IEmployee
         {
             if(item.NeedName == neeed.NeedName)
             {
-                item.FullfillNeed();
+                //TO DO:
+                //Do Animation need
+                //Resert need
             }
         }
     }
-    public virtual void DoTask()
-    {
-        if (assignedRoom != null && assignedRoom.CurrentTask != null)
-            timer -= Time.deltaTime;
 
-        if (timer >= workTimer)
+    #region Modding?
+    public void AddNewSkill(CharacterStat characterStat)
+    {
+        if (characterStats != null)
         {
-            if(assignedRoom != null && assignedRoom.CurrentTask != null)
-            {
-               // assignedRoom.DoTask();
-            }
-            else
-            {
-                employeeState = EmployeeSate.Idle;
-            }
-            
-            workTimer = 0;
+            characterStats.Add(characterStat);
         }
     }
-    public virtual void GoToWorkAfterFullfillNeed()
-    {
-        employeeState = EmployeeSate.GoingBackToDesk;
 
+    public void AddNewNeed(EmployeeNeeds need)
+    {
+        needsList.Add(need);
     }
-    //Find neariest  Need object to fullfill need
-    private NeedFurniture FindNeariestNeedObject(NeedFurniture[] gameObject)
-    {
-        float searchRadius = 300f;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, searchRadius);
-
-        foreach (var collider in colliders)
-        {
-            NeedFurniture fullfilingFurnturie = collider.GetComponent<NeedFurniture>();
-
-            foreach (var needs in gameObject)
-            {
-
-                if (fullfilingFurnturie != null && !fullfilingFurnturie.IsTaken() && fullfilingFurnturie.GetFullfillingNeed.NeedName == needs.name)
-                {
-                    return fullfilingFurnturie; 
-                }
-            }
-        }
-        return null;
-    }  
+    #endregion
 }

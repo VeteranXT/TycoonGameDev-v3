@@ -30,16 +30,18 @@ public class TaskDevelopGame : TaskDo
 
     private List<IDevelop> ToDevelop = new List<IDevelop>();
     private float timeToDevelopPoints;
+    private List<GameplayFeatures> SelectedFeatures { get { return notDevelopedFeaturesList; }  set { notDevelopedFeaturesList = value; } }
 
     private float developerPointsAccumulated = 0;
-
-    public bool IsPolishing { get { return !IsDeveloping; } }
-    public bool IsDeveloping { get { return isInDevelopment; } private set { isInDevelopment = value; } }
+    private int bugsCount;
     #region Events
 
     public event Action<GameDeveloped> EventGameDeveloping;
-    #endregion 
+    #endregion
 
+    #region Getter Setters
+    public bool IsPolishing { get { return !IsDeveloping; } }
+    public bool IsDeveloping { get { return isInDevelopment; } private set { isInDevelopment = value; } }
     public TargetAudence AudenceTarget { get { return targetAudence; } set { targetAudence = value; } }
     public string GameTitle { get { return gameName; } set { gameName = value; } }
     public string GameDescription { get { return gameDescription; } set { gameDescription = value; } }
@@ -48,14 +50,11 @@ public class TaskDevelopGame : TaskDo
     public ThemeTopic PrimaryTopic { get { return primaryTopic; } private set { primaryTopic = value; } }
     public ThemeTopic SecondaryTopic { get { return secondaryTopic; } private set { secondaryTopic = value; } }
     public ProjectSize ProjectSize { get { return projectSize; } private set { projectSize = value; } }
-
     public float DeveopTimePoints { get { return timeToDevelopPoints; } private set { timeToDevelopPoints = value; } }
     public float GetTotalWorkRation { get { return developerPointsAccumulated / timeToDevelopPoints; } }
 
-    //TO DO
-    private int bugsCount;
-    public List<GameplayFeatures> SelectedFeatures { get { return notDevelopedFeaturesList; } private set { notDevelopedFeaturesList = value; } }
- 
+    #endregion
+
     #region Setting To develop
     public void ChangeGameTitle(string title)
     {
@@ -118,9 +117,8 @@ public class TaskDevelopGame : TaskDo
 
 
     
-    private void CalculateTotalDevWork(GameEngine engine)
+    private static void CalculateTotalDevWork(GameEngine engine)
     {
-
         float totalDevWork = 0;
         if(engine != null)
         {
@@ -130,28 +128,24 @@ public class TaskDevelopGame : TaskDo
         {
             Debug.LogError("Game Engine is not set in UI Properly!!");
         }
-        if(notDevelopedFeaturesList  != null)
-        {
-            if (notDevelopedFeaturesList.Count > 0)
-            {
-                foreach (var feature in notDevelopedFeaturesList)
-                {
-                    totalDevWork += feature.DevelopTimeNeeded;
-                }
-            }
-        }
-        totalDevWork *= ProjectSize.SizeModifer;
-        DeveopTimePoints = totalDevWork;
+        //if(notDevelopedFeaturesList  != null)
+        //{
+        //    if (notDevelopedFeaturesList.Count > 0)
+        //    {
+        //        foreach (var feature in notDevelopedFeaturesList)
+        //        {
+        //            totalDevWork += feature.DevelopTimeNeeded;
+        //        }
+        //    }
+        //}
+        //totalDevWork *= ProjectSize.SizeModifer;
+        //DeveopTimePoints = totalDevWork;
     }
-
-
-    
-
     //Create instance of Task and assign it to Game room
-    public TaskDevelopGame CreateNewGame(GameEngine enginem,string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
+    public static TaskDevelopGame CreateNewGame(GameEngine enginem,string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
     {
 
-        TaskDevelopGame NewTask = Instantiate(this, parent);
+        TaskDevelopGame NewTask = Instantiate(new TaskDevelopGame(), parent);
         
         NewTask.engine = enginem;
         //TO DO: Check for exisitng IP with same name
@@ -162,7 +156,7 @@ public class TaskDevelopGame : TaskDo
         NewTask.SecondaryGenre = secGenre;
         NewTask.SecondaryTopic = secTop;
         NewTask.ProjectSize = size;
-        CalculateTotalDevWork(engine);
+        CalculateTotalDevWork(enginem);
         return NewTask;
     }
 

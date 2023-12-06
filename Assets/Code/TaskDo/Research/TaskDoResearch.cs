@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Code
+public class TaskDoResearch : TaskDo
 {
-    public  class TaskDoResearch : TaskDo
-    {
-    }
 }
+

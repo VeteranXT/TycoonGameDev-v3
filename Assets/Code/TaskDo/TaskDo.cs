@@ -9,7 +9,7 @@ public class TaskDo : MonoBehaviour
 
     protected virtual float GetTotalDevPoints()
     {
-        return 0f;
+        return 1000f;
     }
 
     public virtual void DoTask(float devPoints)

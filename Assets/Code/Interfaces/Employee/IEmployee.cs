@@ -2,14 +2,15 @@
 
 public enum EmployeeSate
 {
-    Idle,
-    Working,
-    Break,
-    GoingToFullfillNeed,
-    FullfilingNeeed,
-    GoingBackToDesk,
-    NotAssignedToRoom
 
+    Idle,
+    LookingForWorkTable,
+    GoingToWorkTable,
+    Working,
+    GoingToBreak,
+    OnBreak,
+    GointToFillNeed,
+    FillingNeed
 }
 public interface IEmployee
 {

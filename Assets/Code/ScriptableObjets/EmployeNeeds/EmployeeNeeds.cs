@@ -9,28 +9,23 @@ public class EmployeeNeeds  : ScriptableObject
     [SerializeField] private float maxNeed = 100;
     [SerializeField] private float needReducer = 0.1f;
     [SerializeField] private bool isCriticalNeed = false;
-    [SerializeField] private NeedFurniture[] objectToFullFillNeed;
+    [SerializeField] private NeedFurniture[] refullfiliingObjects;
 
     public bool IsCritical { get { return isCriticalNeed; } }
     public float Reducer { get { return needReducer; } }
     public string NeedName { get { return needName; } }
-
-    public bool IsNeededToRefill
-    {
-        get { return CurrentNeed < 50f; }
-    }
-
-    public bool IsCriticalyLow
-    {
-        get { return CurrentNeed < 10f; }
-
-    }
-    public float CurrentNeed { get { return currentNeed; } set {  currentNeed = value; } }
-
+    public float CurrentNeed { get { return currentNeed; } private set {  currentNeed = value; } }
+    public bool IsNeededToRefill  { get { return CurrentNeed < 50f; } }
+    public bool IsCriticalyLow {  get { return CurrentNeed < 10f; } }
     public float MaxNeed { get { return maxNeed; } set {  maxNeed = value; } }
-    public NeedFurniture[] ObjectToFullFillNeed { get { return objectToFullFillNeed; }  }
+    public NeedFurniture[] FullfiliingObjects { get { return refullfiliingObjects; }  }
     public void FullfillNeed()
     {
         CurrentNeed = MaxNeed;
+    }
+
+    public void ReuceNeed()
+    {
+        CurrentNeed -= Reducer;
     }
 }
