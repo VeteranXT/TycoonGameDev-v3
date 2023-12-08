@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-
-public class TaskDoResearchGameplay
+public class TaskDoResearchGameplay : TaskDoResearch
 {
+    [SerializeField] private GameplayFeatures gameplayToResearch;
 }
 

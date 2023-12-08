@@ -7,7 +7,7 @@ public class LockResearchables : BaseItem, ITimeLock, IResearchable
 {
     #region Fields
 
-    [SerializeField] private Sprite icon;
+
     [SerializeField] private bool isResearched = false;
 
     [SerializeField] private float researchPoints = 100;
@@ -20,10 +20,7 @@ public class LockResearchables : BaseItem, ITimeLock, IResearchable
     #endregion
 
     #region Getters Setters
-    /// <summary>
-    /// Icon sprite
-    /// </summary>
-    public Sprite GetIcon { get { return icon; } }
+
     /// <summary>
     /// Is locked by time aka tech that we can research
     /// </summary>

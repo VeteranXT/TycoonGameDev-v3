@@ -9,7 +9,6 @@ public class Genres : LockResearchables
 {
     [SerializeField] private Genres[] goodCombosList;
     [SerializeField] private ThemeTopic[] matchingTopics;
-
     public bool GetGoodCombo(Genres SecondaryGenre)
     {
         //Add to final Score if it matches

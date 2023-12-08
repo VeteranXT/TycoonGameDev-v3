@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
+
+//Question for myself.
+//Do player only has bank? Or do we simulate other companies banks balance?
 public class CompanyBank : MonoBehaviour
 {
     //How much player has starting money
@@ -21,17 +18,17 @@ public class CompanyBank : MonoBehaviour
 
     public static event Action<float> EventCurrencyChanged;
     public float LoanTaken { get { return loanTaken; } private set { loanTaken = value; } }
-    public float MaxLoanTaken { get { return maxLoanTaken; } private set { maxLoanTaken = value; } }
+    public float MaxLoan { get { return maxLoanTaken; } private set { maxLoanTaken = value; } }
     public float Currency { get { return currency; } set{ currency = value; EventCurrencyChanged?.Invoke(currency); } }
 
     public float IntrestRate { get { return intrestRate; } private set {  intrestRate = value; } }
 
- 
-
-    private void Start()
+    private void Awake()
     {
-        Company.EventPayWages += PayWages;
+        DontDestroyOnLoad(this);
     }
+
+
     public void PayIntrest()
     {
         if (LoanTaken > 0)
@@ -50,36 +47,51 @@ public class CompanyBank : MonoBehaviour
     }
     public void SetIntrestRate(float rate)
     {
-
+        IntrestRate = rate;
     }
 
     public void SetMaxLoan(float maxLoan)
     {
-        MaxLoanTaken = maxLoan;
+        MaxLoan = maxLoan;
     }
     public void TakeLoan(float amount)
     {
-
+        LoanTaken += amount;
     }
 
     public void PayLoan(float amount)
     {
-
+        LoanTaken -= amount;
     }
 
     public void ExtendLoanLimit(float amount)
     {
-
+        MaxLoan += amount;
     }
 
+    public void ReduceLoanLimit(float amount)
+    {
+        MaxLoan -= amount;
+    }
     public void WarnBankrupcy()
     {
+       //CHeck if we are below certan limit
+       //50% of max loan? 3+ months in minus?
+    }
 
+    public void SetLoanMaxBasedOnYear(int year)
+    {
+        switch(year)
+        {
+            case 1978:
+                MaxLoan = 250_000;
+                break;
+        }
     }
 
     public void Bankrupt()
     {
-
+        //Game over? 
     }
 }
 

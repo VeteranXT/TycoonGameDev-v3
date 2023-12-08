@@ -21,7 +21,6 @@ public class TaskDevelopGame : TaskDo
     private ThemeTopic primaryTopic;
     private ThemeTopic secondaryTopic;
     private TargetAudence targetAudence = TargetAudence.All;
-    //Stuff we actually use  to calcualte dev time
     private GameEngine engine;
     private ProjectSize projectSize;
     private ProjectGameType gameType;
@@ -34,6 +33,7 @@ public class TaskDevelopGame : TaskDo
 
     private float developerPointsAccumulated = 0;
     private int bugsCount;
+
     #region Events
 
     public event Action<GameDeveloped> EventGameDeveloping;
@@ -114,8 +114,6 @@ public class TaskDevelopGame : TaskDo
     }
 
     #endregion
-
-
     
     private static void CalculateTotalDevWork(GameEngine engine)
     {
@@ -128,89 +126,33 @@ public class TaskDevelopGame : TaskDo
         {
             Debug.LogError("Game Engine is not set in UI Properly!!");
         }
-        //if(notDevelopedFeaturesList  != null)
-        //{
-        //    if (notDevelopedFeaturesList.Count > 0)
-        //    {
-        //        foreach (var feature in notDevelopedFeaturesList)
-        //        {
-        //            totalDevWork += feature.DevelopTimeNeeded;
-        //        }
-        //    }
-        //}
-        //totalDevWork *= ProjectSize.SizeModifer;
-        //DeveopTimePoints = totalDevWork;
     }
     //Create instance of Task and assign it to Game room
-    public static TaskDevelopGame CreateNewGame(GameEngine enginem,string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
+    public static TaskDevelopGame CreateNewGame(GameEngine enginem,string title, string description, Genres primGrene, ThemeTopic primTop, ProjectSize size, Transform parent, Genres secGenre = null, ThemeTopic secTop = null)
     {
-
         TaskDevelopGame NewTask = Instantiate(new TaskDevelopGame(), parent);
-        
         NewTask.engine = enginem;
         //TO DO: Check for exisitng IP with same name
         NewTask.GameTitle = title;   
         NewTask.GameDescription = description;
+      
         NewTask.PrimaryGenre = primGrene;
+        if (secGenre != null)
+        {
+            NewTask.SecondaryGenre = secGenre;
+        }
         NewTask.PrimaryTopic = primTop;
-        NewTask.SecondaryGenre = secGenre;
-        NewTask.SecondaryTopic = secTop;
+        if(secTop != null)
+        {
+            NewTask.SecondaryTopic = secTop;
+        }
         NewTask.ProjectSize = size;
         CalculateTotalDevWork(enginem);
         return NewTask;
     }
 
 
-    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene,  ThemeTopic primTop, ThemeTopic secTop, ProjectSize size, Transform parent)
-    {
-
-        TaskDevelopGame NewTask = Instantiate(this, parent);
-
-        NewTask.engine = enginem;
-        //TO DO: Check for exisitng IP with same name
-        NewTask.GameTitle = title;
-        NewTask.GameDescription = description;
-        NewTask.PrimaryGenre = primGrene;
-        NewTask.PrimaryTopic = primTop;
-        NewTask.SecondaryTopic = secTop;
-        NewTask.ProjectSize = size;
-        CalculateTotalDevWork(engine);
-        return NewTask;
-    }
-
-    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene, Genres secGenre, ThemeTopic primTop,  ProjectSize size, Transform parent)
-    {
-
-        TaskDevelopGame NewTask = Instantiate(this, parent);
-
-        NewTask.engine = enginem;
-        //TO DO: Check for exisitng IP with same name
-        NewTask.GameTitle = title;
-        NewTask.GameDescription = description;
-        NewTask.PrimaryGenre = primGrene;
-        NewTask.PrimaryTopic = primTop;
-        NewTask.SecondaryGenre = secGenre;
-        NewTask.ProjectSize = size;
-        CalculateTotalDevWork(engine);
-        return NewTask;
-    }
-
-
-    public TaskDevelopGame CreateNewGame(GameEngine enginem, string title, string description, Genres primGrene, ThemeTopic primTop, ProjectSize size, Transform parent)
-    {
-
-        TaskDevelopGame NewTask = Instantiate(this, parent);
-
-        NewTask.engine = enginem;
-        //TO DO: Check for exisitng IP with same name
-        NewTask.GameTitle = title;
-        NewTask.GameDescription = description;
-        NewTask.PrimaryGenre = primGrene;
-        NewTask.PrimaryTopic = primTop;
-        NewTask.ProjectSize = size;
-        CalculateTotalDevWork(engine);
-        return NewTask;
-    }
+    
     public override void DoTask(float devPoints)
     {
         if (IsDeveloping)

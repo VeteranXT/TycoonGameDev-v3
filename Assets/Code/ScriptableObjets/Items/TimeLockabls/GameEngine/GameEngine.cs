@@ -14,11 +14,11 @@ public class GameEngine : TimeLockables
     [SerializeField] private int devKitCost = 1000;
     [SerializeField] private float efficency = 0f;
     [SerializeField] private float maxEfficency = 0.6f;
-    [SerializeField] private EngineSoundFeatres[] soundFeatures;
-    [SerializeField] private EngineAIFeatres[] aIFeatures;
-    [SerializeField] private EngineGraphicsFeatres[] graphicsFeatures;
-    [SerializeField] private EnginePhysicsFeatres[] physicsFeatures;
-    [SerializeField] private EngineRenderFeatres[] renderFeatures;
+    [SerializeField] private List<EngineSoundFeatres> soundFeatures;
+    [SerializeField] private List<EngineAIFeatres> aIFeatures;
+    [SerializeField] private List<EngineGraphicsFeatres> graphicsFeatures;
+    [SerializeField] private List<EnginePhysicsFeatres> physicsFeatures;
+    [SerializeField] private List<EngineRenderFeatres> renderFeatures;
     [SerializeField] private List<GameplayFeatures> basicFeatures;
     [SerializeField] private int selectedAudioIndex;
     [SerializeField] private int selectedAIindex;
