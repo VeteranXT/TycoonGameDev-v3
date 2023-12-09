@@ -9,9 +9,11 @@ public class BuildingGrid : MonoBehaviour
     private int height;
     private int cellsize;
     private Vector3 gridPosition;
+    [SerializeField] private GameObject floorPrefab;
+    [SerializeField] private GameObject buildingWall;
 
-    private GameObject floorPrefab;
-    private GameObject buildingWall;
+    public int GetSize { get { return width * height; } }
+
 
     private BuildingGrid[,] buildingGrids;
     private bool[,] hasWallFacing;
@@ -25,18 +27,9 @@ public class BuildingGrid : MonoBehaviour
         this.buildingWall = wall;
         buildingGrids = new BuildingGrid[width * cellsize, height * cellsize];
         hasWallFacing = new bool[width * cellsize, height * cellsize];
+        GenerateGrid();
     }
-    public BuildingGrid(int width, int height, int cellsize, Vector3 gridPosition, GameObject floorPrefab)
-    {
-        this.width = width;
-        this.height = height;
-        this.cellsize = cellsize;
-        this.floorPrefab = floorPrefab;
-        this.gridPosition = gridPosition;
-        this.buildingGrids = new BuildingGrid[width * cellsize, height * cellsize];
-        hasWallFacing = new bool[width * cellsize, height * cellsize];
-    }
-    public void GenerateGrid()
+    private void GenerateGrid()
     {
         for (int x = 0; x < width; x++)
         {
@@ -44,7 +37,7 @@ public class BuildingGrid : MonoBehaviour
             {
                 Vector3 tilePosition = gridPosition + CalculateCellPosition(x,y);
                 GameObject floor = Instantiate(floorPrefab, tilePosition, Quaternion.identity);
-                buildingGrids[x,y] = new BuildingGrid(width, height, cellsize, tilePosition, floor);
+                buildingGrids[x,y] = new BuildingGrid(width, height, cellsize, tilePosition, floor, buildingWall);
 
                 CheckAndPlaceWall(x + 1, y, CordinalDirection.RIGHT);
                 CheckAndPlaceWall(x - 1, y, CordinalDirection.LEFT);

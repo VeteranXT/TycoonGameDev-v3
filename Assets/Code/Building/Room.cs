@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    private BuildingGrid roomGrid;
     private TaskDo currentTask;
     private List<Employee> assingedEmployees = new List<Employee>();
 
