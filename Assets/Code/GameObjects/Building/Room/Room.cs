@@ -7,36 +7,33 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     private BuildingGrid roomGrid;
-    private TaskDo currentTask;
     private List<Employee> assingedEmployees = new List<Employee>();
-
-
     private List<Furniture> furnitureList = new List<Furniture>();
+    public virtual void DoTask(Employee taskDone)
+    {
 
-
+    }
     public virtual void AddEmployeeToRoom(Employee employee)
     {
         if (employee != null)
         {
             employee.EventFiredEmployee += RemoveEmployeeFromRoom;
             employee.EventDoneTask += DoTask;
-            assingedEmployees.Add(employee);
-            
+            assingedEmployees.Add(employee);           
         }
     }
-    public virtual void AddEmployeesToRoom(Employee[] employee)
+    public virtual void AddEmployeesToRoom(Employee[] employees)
     {
-        foreach (var employeeinRoom in employee)
+        foreach (var newEmployee in employees)
         {
-            if (employeeinRoom != null)
+            if (newEmployee != null)
             {
-                employeeinRoom.EventFiredEmployee += RemoveEmployeeFromRoom;
-                employeeinRoom.EventDoneTask += DoTask;
-                assingedEmployees.Add(employeeinRoom);
+                newEmployee.EventFiredEmployee += RemoveEmployeeFromRoom;
+                newEmployee.EventDoneTask += DoTask;
+                assingedEmployees.Add(newEmployee);
             }
         }
     }
-
     public virtual void RemoveEmployeeFromRoom(Employee employee)
     {
         if (employee != null)
@@ -65,7 +62,6 @@ public class Room : MonoBehaviour
         
         return freeStations > 0;
     }
-
     public WorkFurniture GetFirstFreeWorkstation()
     {
         if (FurnitureInRoom != null && furnitureList.Count > 0)
@@ -82,25 +78,4 @@ public class Room : MonoBehaviour
         return null;
     }
     public List<Furniture> FurnitureInRoom { get {  return furnitureList; } }
-    public TaskDo CurrentTask {  get { return currentTask; } }
-    private void Start()
-    {
-       
-
-
-    }
-    public virtual void DoTask(Employee taskDone)
-    {
-
-    }
-    public virtual void Update()
-    {
-        //We have task do not anything
-        if(currentTask != null)
-        {
-            return;
-        }
-    }
-
-
 }

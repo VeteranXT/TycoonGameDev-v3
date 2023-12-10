@@ -9,7 +9,7 @@ public enum EmployeeSate
     Working,
     GoingToBreak,
     OnBreak,
-    GointToFillNeed,
+    GoingToFillNeed,
     FillingNeed
 }
 public interface IEmployee

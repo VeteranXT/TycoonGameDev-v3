@@ -17,7 +17,7 @@ public class Employee : MonoBehaviour, IEmployee
     [SerializeField] private NeedFurniture needObj = null;
     [SerializeField] private WorkFurniture workTable = null;
     [SerializeField] private Room assignedRoom = null;
-    [SerializeField] private float workTimer = 1f;
+    [SerializeField] private float workTime = 1f;
     [SerializeField] private float work = 0;
     public event Action<Employee> EventDoneTask;
     public event Action<Employee> EventFiredEmployee;
@@ -46,25 +46,7 @@ public class Employee : MonoBehaviour, IEmployee
             //Check your needs.
             foreach (var need in needsList)
             {
-                //needsTimer += Time.deltaTime;
-                //if (needsTimer >= 1f)
-                //{
-                //    need.ReuceNeed();
-                //    needsTimer = 0f;
-                //}
-
-                //Is this critical need to fullfill
-                //Bathroom, Eat etc?
-                //if (need.IsCritical && need.IsNeededToRefill)
-                //{
-                //    TO DO: wait for break
-                //    Find object
-                //    Fullfill need
-                //}
-                //else if (need.IsCriticalyLow)
-                //{
-
-                //}
+                //TO DO: Do it late in development
             }
         }
 
@@ -78,7 +60,6 @@ public class Employee : MonoBehaviour, IEmployee
             workTable.Assign(this);
         }     
     }
-
     public void FireEmployee()
     {
         if (CanFire())
@@ -105,37 +86,33 @@ public class Employee : MonoBehaviour, IEmployee
                 FindWorkSation();
                 break;
             case EmployeeSate.GoingToWorkTable:
-                if (!WeAtWorkStation())
+                if (!WeAtWorkStation)
                 {
-                    if(workTable != null)
+                    destination.target = workTable.transform;
+                    if (WeAtWorkStation)
                     {
-                        destination.target = workTable.transform;
-                        if (WeAtWorkStation())
-                            employeeState = EmployeeSate.Working;
+                        employeeState = EmployeeSate.Working;
                     }
-                    else
-                    {
-                        employeeState = EmployeeSate.LookingForWorkTable;
-                    }
-
                 }
                 break;
             case EmployeeSate.Idle:
-                if(assignedRoom.CurrentTask != null)
-                    employeeState = EmployeeSate.Working;
+                //TO Do: Check if have things to do?
                 break;
             case EmployeeSate.Working:
-                if(assignedRoom.CurrentTask != null)
+                work += Time.deltaTime;
+                if(work >= workTime)
+                {
                     DoTask();
-                else
-                    employeeState = EmployeeSate.Idle;
+                    work = 0;
+                }
                 break;
-                //TO DO rest of needs
             case EmployeeSate.GoingToBreak:
                 break;
             case EmployeeSate.OnBreak:
                 break;
-            case EmployeeSate.GointToFillNeed:
+            case EmployeeSate.GoingToFillNeed:
+                //TO DO:
+                //Scan are
                 break;
             case EmployeeSate.FillingNeed:
                 break;
@@ -144,20 +121,11 @@ public class Employee : MonoBehaviour, IEmployee
 
     public virtual void DoTask()
     {
-        if (assignedRoom != null && assignedRoom.CurrentTask != null)
-            work += Time.deltaTime;
-        if (work >= workTimer)
-        {
-            workTimer = 0;
-            EventDoneTask?.Invoke(this);
-        }
+        EventDoneTask?.Invoke(this);
     }
-
-    private bool WeAtWorkStation()
-    {
-        return Vector3.Distance(transform.position, workTable.transform.position) < 1f;
-    }
-    public static void CreateInstance(EmployeeData employeeData, Vector3 positoon,Room room)
+    //Check if we are in range of our workstation
+   
+    public static void CreateEmployeeInstance(EmployeeData employeeData, Vector3 positoon,Room room)
     {
         Employee em = Instantiate(employeeData.EmployeePrefabs, positoon, Quaternion.identity);
         em.Setup(employeeData);
@@ -175,17 +143,11 @@ public class Employee : MonoBehaviour, IEmployee
     }
     public virtual void DoNeed(EmployeeNeeds neeed)
     {
-        foreach(var item in needsList)
-        {
-            if(item.NeedName == neeed.NeedName)
-            {
-                //TO DO:
-                //Do Animation need
-                //Resert need
-            }
-        }
+        //TO DO:
+ 
     }
-
+    private bool WeAtWorkStation { get { return Vector3.Distance(transform.position, workTable.transform.position) < 1f; } }
+ 
     #region Modding?
     public void AddNewSkill(CharacterStat characterStat)
     {

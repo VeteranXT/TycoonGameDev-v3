@@ -14,49 +14,38 @@ public class GameEngine : TimeLockables
     [SerializeField] private int devKitCost = 1000;
     [SerializeField] private float efficency = 0f;
     [SerializeField] private float maxEfficency = 0.6f;
-    [SerializeField] private List<EngineSoundFeatres> soundFeatures;
-    [SerializeField] private List<EngineAIFeatres> aIFeatures;
-    [SerializeField] private List<EngineGraphicsFeatres> graphicsFeatures;
-    [SerializeField] private List<EnginePhysicsFeatres> physicsFeatures;
-    [SerializeField] private List<EngineRenderFeatres> renderFeatures;
-    [SerializeField] private List<GameplayFeatures> basicFeatures;
-    [SerializeField] private int selectedAudioIndex;
-    [SerializeField] private int selectedAIindex;
-    [SerializeField] private int selectedGraphicsIndex;
-    [SerializeField] private int selectedPhysicsIndex;
-    [SerializeField] private int selectedRenderIndex;
+    [SerializeField] private List<EngineSoundFeatres> soundFeatures = new List<EngineSoundFeatres>();
+    [SerializeField] private List<EngineAIFeatres> aIFeatures = new List<EngineAIFeatres>();
+    [SerializeField] private List<EngineGraphicsFeatres> graphicsFeatures = new List<EngineGraphicsFeatres>();
+    [SerializeField] private List<EnginePhysicsFeatres> physicsFeatures = new List<EnginePhysicsFeatres>();
+    [SerializeField] private List<EngineRenderFeatres> renderFeatures = new List<EngineRenderFeatres>();
+    [SerializeField] private List<GameplayFeatures> basicFeatures = new List<GameplayFeatures>();
 
-
-
-    public void SetEngineAudio(int audio)
+    public EngineSoundFeatres SoundFeature(int Index)
     {
-        selectedAudioIndex = audio;
-    }
-    public void SetEngineAI(int AI)
-    {
-        selectedAIindex = AI;
-    }
-    public void SetGraphicsIndex(int index)
-    {
-        selectedGraphicsIndex = index;
-    }
-    public void SetPhysicsIndex(int index)
-    {
-        selectedPhysicsIndex = index;
+        return soundFeatures[Index];
     }
 
-    public void SetRenderIndex(int index)
+    public EngineAIFeatres AIFeature(int Index)
     {
-        selectedAIindex = index;
+        return aIFeatures[Index];
     }
-    public float GetTotalDevPoints()
+    public EngineGraphicsFeatres GraphicsFeature(int Index)
+    {
+        return graphicsFeatures[Index];
+    }
+    public EnginePhysicsFeatres PhysicsFeature(int Index)
+    {
+        return physicsFeatures[Index];
+    }
+    public EngineRenderFeatres RenderFeature(int Index)
+    {
+        return renderFeatures[Index];
+    }
+    public float GetDevPoints()
     {
         float totalDevPoints = 0f;
-        totalDevPoints += soundFeatures[selectedAudioIndex].DevelopTimeNeeded;
-        totalDevPoints += aIFeatures[selectedAIindex].DevelopTimeNeeded;
-        totalDevPoints += graphicsFeatures[selectedGraphicsIndex].DevelopTimeNeeded;
-        totalDevPoints += physicsFeatures[selectedPhysicsIndex].DevelopTimeNeeded;
-        totalDevPoints += renderFeatures[selectedRenderIndex].DevelopTimeNeeded;
+
 
         foreach (var feature in basicFeatures)
         {

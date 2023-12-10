@@ -9,7 +9,7 @@ public class Company : MonoBehaviour
     private CompanyBank playerBank;
     private string companyName;
     private Sprite companyIcon;
-    private List<GameDeveloped> developedgameList = new List<GameDeveloped>();
+    private List<GameInDevelopment> developedgameList = new List<GameInDevelopment>();
     private List<GameEngine> gameEngines = new List<GameEngine>();
 
     public string CompanyName { get { return companyName; } set {  companyName = value; } }
