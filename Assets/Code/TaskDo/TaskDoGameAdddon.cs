@@ -1,3 +1,3 @@
-﻿internal class TaskDoGameAdddon
+﻿internal class TaskDoGameAdddon : TaskDo
 {
 }

@@ -10,6 +10,6 @@ public class DevelopmentRoom : Room
     private TaskDoDevelopGame currentTask;
     public override void DoTask(Employee taskDone)
     {
-        base.DoTask(taskDone);
+
     }
 }

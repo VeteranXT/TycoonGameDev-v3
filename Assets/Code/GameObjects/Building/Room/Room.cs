@@ -9,8 +9,10 @@ public class Room : MonoBehaviour
     private BuildingGrid roomGrid;
     private List<Employee> assingedEmployees = new List<Employee>();
     private List<Furniture> furnitureList = new List<Furniture>();
+    public List<Furniture> FurnitureInRoom { get {  return furnitureList; } }
     public virtual void DoTask(Employee taskDone)
     {
+
 
     }
     public virtual void AddEmployeeToRoom(Employee employee)
@@ -56,6 +58,7 @@ public class Room : MonoBehaviour
         }
         
     }
+ 
     public bool HasFreeWorkStation()
     {
         int freeStations = furnitureList.Where(x => x.IsAssignable && !x.IsAssiged()&& x.IsWorkStation).Count();
@@ -77,5 +80,4 @@ public class Room : MonoBehaviour
         }
         return null;
     }
-    public List<Furniture> FurnitureInRoom { get {  return furnitureList; } }
 }
