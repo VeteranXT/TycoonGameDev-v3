@@ -12,4 +12,8 @@ public class DevelopmentRoom : Room
     {
 
     }
+    public override void SetupTask(TaskDo task)
+    {
+        currentTask = (TaskDoDevelopGame)task;
+    }
 }

@@ -9,6 +9,7 @@ public class Room : MonoBehaviour
     private BuildingGrid roomGrid;
     private List<Employee> assingedEmployees = new List<Employee>();
     private List<Furniture> furnitureList = new List<Furniture>();
+
     public List<Furniture> FurnitureInRoom { get {  return furnitureList; } }
     public virtual void DoTask(Employee taskDone)
     {
@@ -79,5 +80,8 @@ public class Room : MonoBehaviour
             }
         }
         return null;
+    }
+    public virtual void SetupTask(TaskDo task)
+    {
     }
 }
