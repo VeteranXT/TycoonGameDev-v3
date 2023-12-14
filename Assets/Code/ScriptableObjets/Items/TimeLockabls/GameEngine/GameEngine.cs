@@ -49,7 +49,7 @@ public class GameEngine : TimeLockables
 
         foreach (var feature in basicFeatures)
         {
-            totalDevPoints += feature.DevelopTimeNeeded;
+            totalDevPoints += feature.GetTotalDevPoints();
         }
 
         totalDevPoints *= GetEfficency;

@@ -6,8 +6,6 @@ using UnityEngine;
 public class LockResearchables : BaseItem, ITimeLock, IResearchable
 {
     #region Fields
-
-
     [SerializeField] private bool isResearched = false;
 
     [SerializeField] private float researchPoints = 100;

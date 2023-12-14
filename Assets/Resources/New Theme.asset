@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6122e31a52afadf41b54bc3dc51ce643, type: 3}
+  m_Name: New Theme
+  m_EditorClassIdentifier: 
+  itemName: 
+  icon: {fileID: 0}
+  isResearched: 0
+  researchPoints: 100
+  researchLeft: 0
+  unlockYear: 0
+  unlockMonth: 0
+  isLocked: 1
+  alreadyUnlocked: 0
+  _genresMatches: []
+  themeAudence: 0

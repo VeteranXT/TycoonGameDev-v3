@@ -3,7 +3,7 @@
 [CreateAssetMenu]
 public class ProjectGameType : ScriptableObject
 {
-    [SerializeField]private string projectTypeName;
+    private GameplayFeatures[] requiredFeature;
 
-    public string ProjectType { get {  return projectTypeName; } }
+    public GameplayFeatures[] RequiredFeature { get { return requiredFeature; } }
 }

@@ -33,7 +33,7 @@ public class MainMenuHandler  : MonoBehaviour
         //TO DO Show Window with all save slots and handle imput
     }
 
-    private void ContinueSaved(SavedData data)
+    private void ContinueSaved()
     {
        
     }

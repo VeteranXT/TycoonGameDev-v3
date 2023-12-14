@@ -21,7 +21,6 @@ public class GameInDevelopment
     private ThemeTopic topic;
     private Genres subGenre;
     private ThemeTopic subTopic;
-    private ProjectSize size;
     private ProjectGameType gameType;
     private int selectedAudioIndex;
     private int selectedAIindex;

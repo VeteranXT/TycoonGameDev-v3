@@ -1,0 +1,104 @@
+Game Design Document
+Title: Game Dev Star
+Version: 1.1
+Date: TBA
+1. Game Overview
+1.1 Concept
+
+Game Dev Star is a tycoon/simulation game that simulates the challenges of running a game development studio. In addition to designing games based on console specs, the game introduces a unique financial management system where players must consider employee salaries, benefits, and unforeseen challenges in console development.
+1.2 Genre
+
+Tycoon / Simulation
+1.3 Target Platform
+
+PC, Console, and Mobile
+1.4 Target Audience
+
+Everyone
+2. Gameplay Mechanics
+2.1 Core Gameplay
+
+Players will:
+
+    Design games based on console specifications, considering memory space, save ability, tech complexity, and potential flaws.
+    Manage employee salaries and benefits, including royalties, health insurance, vacation weeks, bonuses, and more.
+    Experience challenges in console development, such as unforeseen flaws that can impact the company's finances and reputation.
+    Choose whether to recall consoles with flaws, offer fixes, or risk the consequences.
+
+2.2 Controls
+
+    PC: Mouse and keyboard controls.
+    Console: Controller input.
+
+2.3 Progression System
+
+Players progress by successfully managing their studio's finances, releasing successful games, and navigating challenges in both game and console development.
+3. Story and Setting
+3.1 Story Overview
+
+While the primary focus is on gameplay mechanics, the narrative could include the studio's journey through the ups and downs of the game industry, facing challenges, and making critical decisions.
+3.2 Setting
+
+The game is set in a dynamic game industry environment, with changing trends, evolving technology, and competition from other virtual game development studios.
+3.3 Characters
+
+Players take on the role of the studio founder/manager. The game also introduces AI-driven characters representing employees, each with their own needs, preferences, and skills.
+4. Art and Visuals
+4.1 Art Style
+
+A colorful and visually appealing art style that reflects the creativity and diversity of the gaming industry.
+4.2 Characters and Assets
+
+Character designs for AI-driven employees, various gaming consoles, and studio assets.
+4.3 Environments
+
+Different environments representing the stages of game development, from a small garage studio to a high-tech office.
+5. Audio
+5.1 Soundtrack
+
+An upbeat and dynamic soundtrack to enhance the player's engagement with the game.
+5.2 Sound Effects
+
+Various sound effects for game development activities, such as typing, meetings, and the successful completion of projects.
+6. User Interface (UI)
+6.1 Main Menu
+
+A clean and intuitive main menu with options for starting a new game, loading, and accessing settings.
+6.2 HUD
+
+Display information on current projects, team status, and financial metrics during gameplay. Introduce a new section for managing employee benefits and salaries.
+7. Game Features
+
+    Introduce a "Cut Content" mechanic, allowing players to release Director's Cut versions or expansions with previously cut content.
+    Consequences for console flaws, impacting reputation, sales, and player trust.
+    Explore marketing challenges, including handling PR crises related to flawed consoles.
+
+8. Technical Requirements
+8.1 Minimum System Requirements
+
+    PC: Windows 10, Intel Core i5, 8GB RAM, DirectX 11.
+    Console: Specifications based on the virtual consoles in the game.
+
+8.2 Recommended System Requirements
+
+    PC: Windows 10, Intel Core i7, 16GB RAM, DirectX 12.
+    Console: Specifications based on the virtual consoles in the game.
+
+9. Marketing and Monetization
+9.1 Target Release Date
+
+TBA
+9.2 Marketing Strategy
+
+Engage with the gaming community through social media, gaming forums, and influencers. Release teaser trailers and demos to build anticipation.
+9.3 Monetization
+
+One-time purchase with the possibility of expansion packs and DLCs for additional content.
+10. Development Team
+
+    Solo Developer (me)
+
+11. Revision History
+
+    Version 1.0: Initial draft of the Game Design Document.
+    Version 1.1: Addition of employee management mechanics and console flaw consequences.

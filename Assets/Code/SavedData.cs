@@ -11,4 +11,7 @@ public class SavedData
     public string CompanyName;
     public float currency;
     public float loanTaken;
+
+    //save all companies, their games, value of comapny, consoles etc..
+
 }

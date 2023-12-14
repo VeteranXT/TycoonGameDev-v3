@@ -1,14 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Gameplay Feature", menuName = "Features/Gameplay Features/New Gameplay")]
 
 public class GameplayFeatures : EngineFeature
 {
-    private string featureName;
+    [SerializeField] private bool hasAdditionalGameplay = false;
+    [SerializeField] private List<GameplayList> gameplayLists = new List<GameplayList>();
 
-    public string FeatureName { get { return featureName; } }
+    public List<GameplayList> GetGameplayList { get { return gameplayLists; } }
 
 
+    public float GetTotalDevPoints()
+    {
+        float total = 0;
+
+        foreach (var item in gameplayLists)
+        {
+            total += item.DevelopTimeNeeded;
+        }
+        return total;
+    }
 }
 
 
