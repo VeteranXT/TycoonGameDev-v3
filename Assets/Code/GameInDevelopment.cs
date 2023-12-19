@@ -48,6 +48,8 @@ public class GameInDevelopment
             }
         }
     }
+
+
     public float GetTotalDevPoints()
     {
         float total = 0;
@@ -61,10 +63,22 @@ public class GameInDevelopment
     }
     public void AddMarketingHype(int amount)
     {
-        if(marketingHype < maxMarketingHype)
+        if(CanAddMarketHype())
         {
             marketingHype += amount;
+            if(marketingHype >= maxMarketingHype / 2)
+            {
+                marketingHype = maxMarketingHype;
+            }
         }
+    }
+    private bool CanAddMarketHype()
+    {
+        if(marketingHype < maxMarketingHype / 2)
+        {
+            return true;
+        }
+        return false;
     }
     public bool CanOverHype()
     {
@@ -74,23 +88,23 @@ public class GameInDevelopment
         }
         return false;
     }
-    private bool SubGenreMatchesWithGenre()
+    public bool SubGenreMatchesWithGenre()
     {
         return subGenre.GetSecondaryGenreCombo(genre);
     }
-    private bool TopicMatchesGenre()
+    public bool TopicMatchesGenre()
     {
         return topic.MatchesWithGenre(genre);
     }
-    private bool SubTopicMatchesGenre()
+    public bool SubTopicMatchesGenre()
     {
         return subTopic.MatchesWithGenre(genre);
     }
-    private bool HasSubTopic()
+    public bool HasSubTopic()
     {
         return subTopic != null;
     }
-    private bool HasSubGenre()
+    public bool HasSubGenre()
     {
         return subGenre != null;
     }

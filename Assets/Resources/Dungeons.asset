@@ -23,4 +23,13 @@ MonoBehaviour:
   alreadyUnlocked: 0
   devPoints: 0
   hasAdditionalGameplay: 0
-  gameplayLists: []
+  gameplayLists:
+  - count: 5
+    name: Small
+    DevPoints: 2
+  - count: 0
+    name: Medium
+    DevPoints: 4
+  - count: 0
+    name: Big
+    DevPoints: 8

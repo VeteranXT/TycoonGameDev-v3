@@ -4,13 +4,10 @@ public enum EmployeeSate
 {
 
     Idle,
-    LookingForWorkTable,
-    GoingToWorkTable,
+    Thinking,
     Working,
-    GoingToBreak,
-    OnBreak,
-    GoingToFillNeed,
-    FillingNeed
+    LookingForWorkspace
+
 }
 public interface IEmployee
 {
@@ -18,7 +15,6 @@ public interface IEmployee
     public float GetWage { get; }
     void DoTask();
 
-    void DoNeed(EmployeeNeeds need);
 
     // TO DO Add more like human things.
     //GO to batroom

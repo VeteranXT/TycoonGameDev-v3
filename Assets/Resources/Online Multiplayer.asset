@@ -21,7 +21,6 @@ MonoBehaviour:
   unlockMonth: 4
   isLocked: 1
   alreadyUnlocked: 0
-  DevPoints: 1500
-  PointsAccumulated: 0
-  countTypes: 1
-  countAmounts: 1
+  devPoints: 0
+  hasAdditionalGameplay: 0
+  gameplayLists: []
