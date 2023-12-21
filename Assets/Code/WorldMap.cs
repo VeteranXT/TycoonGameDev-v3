@@ -9,15 +9,9 @@ public class WorldMap : MonoBehaviour
     private void Start()
     {
         roomCreation = GetComponent<StructureCreation>();
-        Setup();
+        roomCreation.CreateBuilding(buildings[0]);
     }
 
-    void Setup()
-    {
-        for (int i = 0; i < buildings.Count; i++)
-        {
-           
-        }
-    }
+    
 }
 

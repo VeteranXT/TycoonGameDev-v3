@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public enum CardinalDirection { UP, DOWN, LEFT, RIGHT }
+public enum CardinalDirection { UP , DOWN, LEFT, RIGHT }
 public static class DirectionExtensions
 {
     public static CardinalDirection GetOppositeDirection(this CardinalDirection direction)

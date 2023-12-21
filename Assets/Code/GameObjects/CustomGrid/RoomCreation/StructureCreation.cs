@@ -1,139 +1,134 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿
+
+
+using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class StructureCreation : MonoBehaviour
 {
-    private Floor floorPrefab;
-    private Wall wallPrefab;
-    private Door doorPrefab;
-    private int buildingWidth;
-    private int buildingHeight;
-    private Vector3 buildingPosition;
-    private Vector3 doorPosition;
-    private int buildingCellSize = 32;
-    private CustomGrid grid;
-    private Wall[,] walls;
-    private Floor[,] floors;
-    private Door[,] doors;
+    public GameObject floorPrefab;
+    public GameObject wallPrefab;
+    public GameObject doorPrefab;
+    public int gridWidth = 5;
+    public int gridHeight = 5;
+    public CustomGrid grid;
 
-    public Door[,] GetDoorGrid { get { return doors; } }
-    public Wall[,] GetWallsGrid { get { return walls; } }
-    public Floor[,] GetFloorGrid { get { return GetFloorGrid; } }
-
-    public void GenerateBuilding(BuildingsData data)
+    public Cell[,,] GetCusotmGrid { get { return grid.GetGrid; } }
+    public Building CreateBuilding (BuildingsData data)
     {
         grid = new CustomGrid(data.BuildingWidth, data.BuildingHeight);
-        grid.GenerateGrid();
-        GenerateBuildingRoom();
+        GameObject Building = new GameObject();
+
+        Building b= Building.AddComponent<Building>().GetComponent<Building>();
+        b.SetupData(data);
+        b.transform.parent = null;
+        GenerateBuilding().transform.parent = Building.transform;
+        return b;
     }
-    private void GenerateBuildingRoom()
+    private GameObject GenerateBuilding()
     {
-        for (int x = 0; x < buildingWidth; x++)
+        GameObject Building = new GameObject("Building");
+        GameObject flpors = new GameObject("Floor Parent");
+        flpors.transform.parent = Building.transform;
+        GameObject walls = new GameObject("Wall Parent");
+        walls.transform.parent = Building.transform;
+        for (int x = 0; x < gridWidth; x++)
         {
-            for (int z = 0; z < buildingHeight; z++)
+            for (int y = 0; y < gridHeight; y++)
             {
-                if (grid.GetGrid[x, z] == true)
+                GenerateFloor(x, y).transform.parent = flpors.transform;
+                Debug.Log("Is Edge: " + IsEdge(x, y, CardinalDirection.UP) + " UP");
+                if (IsEdge(x, y, CardinalDirection.UP))
                 {
-                    CheckAndPlace(x, z, CardinalDirection.UP);
-                    CheckAndPlace(x, z, CardinalDirection.DOWN);
-                    CheckAndPlace(x, z, CardinalDirection.LEFT);
-                    CheckAndPlace(x, z, CardinalDirection.RIGHT);
+                    GenerateWalls(x, y, CardinalDirection.UP).transform.parent = walls.transform;
                 }
-            }
+                Debug.Log("Is Edge: " + IsEdge(x, y, CardinalDirection.RIGHT) + " RIGHT");
+                if (IsEdge(x, y, CardinalDirection.RIGHT))
+                {
+                    GenerateWalls(x, y, CardinalDirection.RIGHT).transform.parent = walls.transform;
+                }
+                Debug.Log("Is Edge: " + IsEdge(x, y, CardinalDirection.DOWN) + " DOWN");
+                if (IsEdge(x, y, CardinalDirection.DOWN))
+                {
+                    GenerateWalls(x, y, CardinalDirection.DOWN).transform.parent = walls.transform;
+                }
+                Debug.Log("Is Edge: " + IsEdge(x, y, CardinalDirection.LEFT) + " LEFT");
+                if (IsEdge(x, y, CardinalDirection.LEFT))
+                {
+                   GenerateWalls(x, y, CardinalDirection.LEFT).transform.parent = walls.transform;
+                }
+            }        
         }
+        Debug.Log("Generation Compleate");
+        return Building;   
     }
-
-    private void CheckAndPlace(int x, int z, CardinalDirection direction)
+    private bool IsEdge(int  x, int y,CardinalDirection dire)
     {
-        // Check if the neighboring tile is within the grid bounds
-        if (IsInBounds( x,  z))
+        return !HasFloorNeighbor(x, y, dire);
+    }
+    private GameObject GenerateWalls(int x, int y,CardinalDirection direction)
+    {
+
+        Vector3 floorPosition = new Vector3(x, 0f, y);
+        Quaternion wallRotation = Quaternion.identity;
+        Vector3 wallOffset = Vector3.zero;
+
+        switch (direction)
         {
-            //If there is no floors there create it
-            if (floors[x, z]  == null)
-            {
-                Vector3 tilePosition = buildingPosition + CalculateCellPosition(x, z);
-                floors[x, z] = Instantiate(floorPrefab, tilePosition, Quaternion.identity);
-            }
-            //check if here should be part of building
-           
-            // Check if there's no a Neighbor and its not place for a door place wall
-            bool isWall = !HasFloorNeighbor(x, z, direction) && !IsValidDoor(x, z);
-
-            if (isWall)
-            {
-                //If there is no wall on this position create it
-                if (walls[x, z] == null)
-                {
-                    Vector3 tilePosition = buildingPosition + CalculateCellPosition(x, z);
-                    walls[x, z] = Instantiate(wallPrefab, tilePosition, Quaternion.identity);
-                }
-                //No need to check for something that does not  exist
-            }
-            //Check if its valid position for door and its should be wall place door
-            bool isDoor = IsValidDoor(x,z) && isWall;
-            //Check if we need to place a door
-            if (isDoor)
-            {
-                Vector3 tilePosition = buildingPosition + CalculateCellPosition(x, z);
-                doors[x, z] = Instantiate(doorPrefab, tilePosition, Quaternion.identity);
-            }
-          
-            if (grid.GetGrid[x, z] == false)
-            {
-                //If there is floor but no
-                if (floors[x, z] != null)
-                {
-                    Destroy(floors[x, z]);
-                }
-                //Check if there is wall
-                if (walls[x, z] != null)
-                {
-                    //Destroy it
-                    Destroy(walls[x, z]);
-                }
-                if(doors[x, z] != null) 
-                {
-                    Destroy(doors[x, z]);
-                }
-
-            }
+            case CardinalDirection.UP:
+                wallOffset = new Vector3(0, 0, -0.5f);
+                break;
+            case CardinalDirection.DOWN:
+                wallRotation = Quaternion.Euler(0f, 180f, 0f);
+                wallOffset = new Vector3(0, 0, 0.5f);
+                break;
+            case CardinalDirection.LEFT:
+                wallRotation = Quaternion.Euler(0f, -90f, 0f);
+                wallOffset = new Vector3(-0.5f, 0, 0);
+                break;
+            case CardinalDirection.RIGHT:
+                wallRotation = Quaternion.Euler(0f, 90f, 0f);
+                wallOffset = new Vector3(0.5f, 0, 0);
+                break;
+            default:
+                break;
         }
+
+        GameObject obj = Instantiate(wallPrefab, floorPosition + wallOffset, wallRotation);
+        GetCusotmGrid[x, y, (int)direction] = new Cell(IsEdge(x, y, direction),direction);
+        obj.name = "Wall: " + direction.ToString() + " " + x + " : " + y;
+        return obj;
     }
 
-    private bool IsInBounds(int x, int y)
+    private GameObject GenerateFloor(int x, int y)
     {
-        return x >= 0 && x < buildingWidth && y >= 0 && y < buildingHeight;
+        Vector3 floorPosition = new Vector3(x, 0.0f, y);
+        return Instantiate(floorPrefab, floorPosition, Quaternion.identity);
     }
-    private bool IsValidDoor(int x, int z)
-    {
-        return doorPosition == new Vector3(x, 0, z);
-    }
-
-    private Vector3 CalculateCellPosition(int x, int y)
-    {
-        return new Vector3(x * buildingCellSize, 0f, y * buildingCellSize);
-    }
-
     private bool HasFloorNeighbor(int x, int y, CardinalDirection cordinalDirection)
     {
         switch (cordinalDirection)
         {
             case CardinalDirection.UP:
-                return grid.GetGrid[x, y - 1] == true;
-            case CardinalDirection.DOWN:
-                return grid.GetGrid[x, y + 1] == true;
-            case CardinalDirection.LEFT:
-                return grid.GetGrid[x - 1, y] == true; 
+                return (y > 0) ? GetCusotmGrid[x, y - 1,(int)cordinalDirection] != null : false ;
             case CardinalDirection.RIGHT:
-                return grid.GetGrid[x + 1, y] == true; 
+                return (x < gridWidth - 1) ? GetCusotmGrid[x + 1, y, (int)cordinalDirection] != null : false; 
+            case CardinalDirection.DOWN:
+                return (y < gridHeight- 1) ? GetCusotmGrid[x, y + 1, (int)cordinalDirection] != null : false;
+            case CardinalDirection.LEFT:
+                return (x > 0) ? GetCusotmGrid[x - 1, y, (int)cordinalDirection] != null : false; 
             default:
                 return false;
         }
     }
+
 }
+   
+
+
+
 

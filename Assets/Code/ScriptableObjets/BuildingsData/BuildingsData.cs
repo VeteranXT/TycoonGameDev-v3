@@ -17,9 +17,7 @@ public class BuildingsData
     [SerializeField] private bool isBought = false;
     [SerializeField] private float buildingPrice;
     [SerializeField] private Vector3 buildingPosition;
-    [SerializeField] private Wall wallPrefab;
-    [SerializeField] private Floor floorPrefab;
-    [SerializeField] private Door doorPrefab;
+
 
     public string BuildingName { get { return buildingName; } }
     public bool IsBought { get { return isBought; } }
@@ -29,8 +27,6 @@ public class BuildingsData
     public CardinalDirection DoorDirection { get { return doorDirection; } }
     public Vector3Int DoorPosition { get {  return doorPosition; } }
     public Vector3 BuildingPosition { get { return buildingPosition; } }
-    public Wall WallPrefab { get {  return wallPrefab; } }
-    public Floor FloorPrefab { get {  return floorPrefab; } }
-    public Door DoorPrefab { get {  return doorPrefab; } }
+
 }
 
