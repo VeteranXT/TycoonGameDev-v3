@@ -7,27 +7,23 @@ public class CustomGrid
     [SerializeField] private int gridWidth;
     [SerializeField] private int gridHeight;
     [SerializeField] private int cellSize;
-    private Floor[,] roomGrids;
+    private bool[,] roomGrids;
 
     public int GetWidth { get {  return gridWidth; } }
     public int GetHeight { get { return gridHeight; } }
     public int GetCellSize { get { return cellSize; } }
-    public Floor[,] GetGrid
+    public bool[,] GetGrid
     {
         get { return roomGrids; }
+        private set {  roomGrids = value; }
     }
-    public CustomGrid(int gridWidth, int gridHeight, int cellSize)
+    public CustomGrid(int gridWidth, int gridHeight, int cellSize = 32)
     {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.cellSize = cellSize;
-        roomGrids = new Floor[gridWidth, gridHeight];
-    }
-    public CustomGrid(int gridWidth, int gridHeight)
-    {
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        roomGrids = new Floor[gridWidth, gridHeight];
+        roomGrids = new bool[gridWidth, gridHeight];
+        GenerateGrid();
     }
     public void GenerateGrid()
     {
@@ -35,20 +31,14 @@ public class CustomGrid
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                if (roomGrids[gridWidth, gridHeight] == null)
-                {
-                    roomGrids[x,y] = new Floor(new Vector3(x* cellSize, 0, y * cellSize));
-                }
+                roomGrids[x, y] = true;
             }
         }
     }
     public void GenerateAdditionalGrid(int width, int height, int startPosX, int startPosY)
     {
         // Create a new instance of the grid
-        CustomGrid newGrid = new CustomGrid(width, height);
-        // Generate a new grid
-        newGrid.GenerateGrid();
-        // Loop through the new grid
+        CustomGrid newGrid = new CustomGrid(gridWidth + width, gridHeight + height);
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -56,9 +46,9 @@ public class CustomGrid
                 int gridX = startPosX + x;
                 int gridY = startPosY + y;
 
-                if (newGrid.roomGrids[x, y] == null)
+                if (gridX >= 0 && gridX < gridWidth && gridY >= 0 && gridY < gridHeight && roomGrids[gridX, gridY] == false)
                 {
-                    newGrid.roomGrids[x, y] = new Floor(new Vector3(gridX * cellSize, 0, gridY * cellSize));
+                    newGrid.roomGrids[gridX, gridY] = true;
                 }
             }
         }
@@ -71,8 +61,9 @@ public class CustomGrid
         }
         else
         {
-            //Log it error
-        }     
+            // Log an error or handle the situation where grids are not connected
+            Debug.LogError("Generated grids are not connected.");
+        }
     }
 
     private bool AreGridsConnected(CustomGrid otherGrid)
@@ -117,7 +108,7 @@ public class CustomGrid
 
         return targetX >= 0 && targetX < otherGrid.gridWidth * otherGrid.cellSize &&
                targetY >= 0 && targetY < otherGrid.gridHeight * otherGrid.cellSize &&
-               roomGrids[x, y] != null && otherGrid.roomGrids[targetX, targetY] != null;
+               roomGrids[x, y] == true && otherGrid.roomGrids[targetX, targetY] == true;
     }
     private void CombineGrids(CustomGrid additionalGrid, int offsetX, int offsetY)
     {
@@ -128,17 +119,13 @@ public class CustomGrid
                 int targetX = offsetX + x;
                 int targetY = offsetY + y;
 
-                if (roomGrids[targetX, targetY] == null && additionalGrid.roomGrids[x, y] != null)
+                //Check for other grid that extended its borders bounds
+                if (roomGrids[targetX, targetY] == false && additionalGrid.roomGrids[x, y] == true)
                 {
                     roomGrids[targetX, targetY] = additionalGrid.roomGrids[x, y];
                 }
             }
         }
     }
-
-   
-
-
-
 }
 
